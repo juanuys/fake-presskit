@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- example file containing base tags -->
+
+<game>	
+	<title>Untitled Team</title>
+	<founding-date>August 19, 2021</founding-date>
+	<website>https://untitled.team</website>
+	<based-in>UK</based-in>
+	
+	<press-contact>press@untitled.team</press-contact>
+	<phone>+0 (44) 7702 123 456 </phone>
+	<address>
+		<line>21 Jump Street</line>
+		<line>Nook &amp; Cranny</line>
+		<line>London</line>
+	</address>
+
+	<socials>
+		<social>
+			<name>Twitter</name>
+			<link>twitter.com/untitled__team</link>
+		</social>
+		<social>
+			<name>ArtStation</name>
+			<link>untitledteam.artstation.com</link>
+		</social>
+	</socials>
+
+	<description>	
+		A gamedev duo based in the UK, focused on making beautiful games that make you feel.
+	</description>
+		
+	<histories>
+		<history>
+			<header>Early history</header>
+			<text>Juan and Maciej met at Falmouth Univerisity in 2020, where they did the Indie Games Masters course together. They collaborated early on, and worked well together. In fact, they ended up doing all their projects together.</text>
+		</history>
+	</histories>
+		
+	<trailers>
+		<!-- <trailer>
+			<name>Trailer</name>
+			<youtube>fOYsRSwqDmc</youtube>
+		</trailer> -->
+	</trailers>
+	
+	<awards>
+		<award>
+			<description>Most Promising Up-start.</description>
+			<info>Cornwall, 31 October, 2021</info>
+		</award>
+	</awards>
+	
+	<quotes>
+		<quote>
+			<description>I was part of a team with Juan and Maciej at Falmouth. Their work ethic is astounding. These guys will go places.</description>
+			<name>John Doe</name>
+			<website>Website</website>
+			<link>https://www.website.com/</link>
+		</quote>
+	</quotes>
+	
+	<press-can-request-copy>TRUE</press-can-request-copy> <!-- can be true or false -->
+	<monetization-permission>monetize</monetization-permission> <!-- can be: 	false (no video allowed),
+																			 	ask (permission on case-per-case basis),
+																			 	non-commercial (no monetization allowed),
+																			 	monetize (full permission) -->	
+	<additionals>
+		<additional>
+			<title>Vice coverage</title>
+			<description>Vice interviews the studio.</description>
+			<link>https://vice.com/totally-fake-interview-with-untitled-team</link>
+		</additional>
+	</additionals>
+	
+	<credits>
+		<credit>
+			<person>Juan Uys</person>
+			<website>https://juanuys.com</website>
+			<role>Game Designer, Developer</role>
+		</credit>
+		<credit>
+			<person>Maciej Ruszala</person>
+			<website>https://mattruszala.artstation.com/</website>
+			<role>Art Director, Visual Designer</role>
+		</credit>
+	</credits>
+	
+	<contacts>
+		<contact>
+			<name>Inquiries</name>
+			<mail>info@untitled.team</mail>
+		</contact>
+		<contact>
+			<name>Twitter</name>
+			<link>https://twitter.com/untitled__team</link>
+		</contact>
+		<contact>
+			<name>Web</name>
+			<link>https://untitled.team</link>
+		</contact>
+	</contacts>
+</game>

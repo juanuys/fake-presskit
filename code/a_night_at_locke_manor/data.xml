@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<game>
+	<title>Game Name</title>
+	<release-date>1 May, 2012</release-date>
+	<website>http://www.gamesite.com/</website>
+	<press-can-request-copy>TRUE</press-can-request-copy>
+
+	<platforms>
+		<platform>
+			<name>PC / Mac</name>
+			<link>http://www.gamesite.com/</link>
+		</platform>
+		<platform>
+			<name>Steam</name>
+			<link>http://www.steampowered.com/</link>
+		</platform>
+		<platform>
+			<name>Apple App Store</name>
+			<link>http://www.itunes.com/</link>
+		</platform>
+	</platforms>
+	
+	<prices>
+		<price>
+			<currency>USD</currency>
+			<value>$1.99</value>
+		</price>
+		<price>
+			<currency>EUR</currency>
+			<value>€1.59</value>
+		</price>
+		<price>
+			<currency>CAD</currency>
+			<value>$1.99</value>
+		</price>				
+		<price>
+			<currency>GBP</currency>
+			<value>£1.29</value>
+		</price>
+	</prices>
+
+	<description>
+	Escape Locke Manor by discovering hidden objects, hunting for clues, solving puzzles, and ultimately cracking the final riddle of the deranged cult whom you call family. 
+	</description>
+	
+	<history>
+	The game had its inception when Juan and Maciej had to come up with something for an assignment at university.
+	</history>
+
+	<features>
+		<feature>An atmospheric escape room game filled with mystery and intrigue.</feature>
+		<feature>Solve puzzles, find clues, and learn dark family secrets.</feature>
+		<feature>Play multiplayer with up to 4 friends, or play solo!</feature>
+		<feature>Explore a beautifully crafted Victorian manor dripping with the occult.</feature>
+	</features>
+	
+	<trailers>
+		<trailer>
+			<name>Trailer</name>
+			<youtube>fOYsRSwqDmc</youtube>
+		</trailer>
+	</trailers>
+	
+	<awards>
+		<award>
+			<description>The Major Wannabe Award.</description>
+			<info>In our heads, 25 December, 2021</info>
+		</award>
+		<award>
+			<description>The Secondbestest Newcomers Award.</description>
+			<info>Nowhere-on-sea, 1 April, 2022</info>
+		</award>
+	</awards>
+	
+	<quotes>
+		<quote>
+			<description>This is a rather insignificant quote by a highly important person.</description>
+			<name>Person Name</name>
+			<website>Website</website>
+			<link>https://example.org</link>
+		</quote>
+		<quote>
+			<description>An extremely positive quote from a rather insignificant person. Also great.</description>
+			<name>Some Guy</name>
+			<website>This Page Is Visited By 12 Visitors A Month</website>
+			<link>https://example.org</link>
+		</quote>
+		<quote>
+			<description>I pretend to love this game even though I do not actually understand it.</description>
+			<name>Pretentious Bastard</name>
+			<website>Artsy Page</website>
+			<link>https://example.org</link>
+		</quote>
+		<quote>
+			<description>HOLY SHIT SO AMAZING</description>
+			<name>Caps Guy</name>
+			<website>Angry Review</website>
+			<link>https://example.org</link>
+		</quote>
+	</quotes>
+	
+	<additionals>
+		<additional>
+			<title>Original Soundtrack</title>
+			<description>Available for free from</description>
+			<link>https://somemusicsite.com/thislink</link>
+		</additional>
+		<additional>
+			<title>Release Blog Post</title>
+			<description>The blog-post through which this game was released is available at</description>
+			<link>https://untitled.team/games/a-night-at-locke-manor/release</link>
+		</additional>
+	</additionals>
+	
+	<credits>
+		<credit>
+			<person>Juan Uys</person>
+			<website>https://juanuys.com</website>
+			<role>Game Designer, Developer</role>
+		</credit>
+		<credit>
+			<person>Maciej Ruszala</person>
+			<website>https://mattruszala.artstation.com/</website>
+			<role>Art Director, Visual Designer</role>
+		</credit>
+	</credits>
+</game>
