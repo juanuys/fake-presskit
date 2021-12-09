@@ -6,6 +6,7 @@ if( file_exists('install.php') )
 	exit;
 }
 
+$games_location = 'games/';
 $game = $_GET['p'];
 
 // Language logic
@@ -14,10 +15,10 @@ include 'lang/TranslateTool.php';
 $language = TranslateTool::loadLanguage(isset($_GET['l']) ? $_GET['l'] : null, 'sheet.php');
 $languageQuery = ($language != TranslateTool::getDefaultLanguage() ? '?l='. $language : '');
 
-if (file_exists($game.'/data-'. $language .'.xml'))
-	$xml = simplexml_load_file($game.'/data-'. $language .'.xml');
-else if (file_exists($game.'/data.xml'))
-	$xml = simplexml_load_file($game.'/data.xml');
+if (file_exists($games_location.$game.'/data-'. $language .'.xml'))
+	$xml = simplexml_load_file($games_location.$game.'/data-'. $language .'.xml');
+else if (file_exists($games_location.$game.'/data.xml'))
+	$xml = simplexml_load_file($games_location.$game.'/data.xml');
 
 if( !isset($xml) )
 {
@@ -49,7 +50,7 @@ if( !isset($xml) )
 </html>';
 		exit;		
 	}
-	else if( is_dir($game) && $game != "lang" && $game != "images" && $game != "trailers" && $game != "_template" )
+	else if( is_dir($games_location.$game) && $game != "lang" && $game != "images" && $game != "trailers" && $game != "_template" )
 	{
 		echo '<!DOCTYPE html>
 <html>
@@ -68,27 +69,18 @@ if( !isset($xml) )
 			</div>
 		</div>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$(".uk-grid").load("create.php?s=installation");
-
-				setInterval(function() {
-					$(".uk-grid").load("create.php?s=installation");
-				}, 5000);
-			});
-		</script>
 	</body>
 </html>';
 
 		// Todo: These steps will fail if safemode is turned on
-		if( !is_dir($game.'/images') ) {
-			mkdir($game.'/images');
+		if( !is_dir($games_location.$game.'/images') ) {
+			mkdir($games_location.$game.'/images');
 		}
-		if( !is_dir($game.'/trailers') ) {
-			mkdir($game.'/trailers');
+		if( !is_dir($games_location.$game.'/trailers') ) {
+			mkdir($games_location.$game.'/trailers');
 		}
-		if( !file_exists($game.'/_data.xml') ) {
-			copy('_template/_data.xml',$game.'/_data.xml');
+		if( !file_exists($games_location.$game.'/_data.xml') ) {
+			copy('_template/_data.xml', $games_location.$game.'/_data.xml');
 		}
 
 		exit;
@@ -101,7 +93,7 @@ if( !isset($xml) )
 }
 
 /* check for distribute() keyfile */
-$files = glob($game.'/ds_*');
+$files = glob($games_location.$game.'/ds_*');
 foreach( $files as $keyfile ) {
 	$keyfileContent = fopen($keyfile, 'r');
 	$presskitURL = fgets($keyfileContent);
@@ -300,18 +292,6 @@ foreach( $xml->children() as $child )
 	}
 }
 
-// function parseLink($uri)
-// {
-//     $parsed = trim($uri);
-//     if( strpos($parsed, "www.") === 0 )
-//         $parsed = substr($parsed, 4);
-//     if( strrpos($parsed, "/") == strlen($parsed) - 1)
-//         $parsed = substr($parsed, 0, strlen($parsed) - 1);
-//     if( substr($parsed,-1,1) == "/" )
-//     	$parsed = substr($parsed, 0, strlen($parsed) - 1);
-//     return $parsed;
-// }
-
 function parseLink($uri)
 {
     $parsed = trim($uri);
@@ -345,11 +325,11 @@ echo '<!DOCTYPE html>
 			<div class="uk-grid">
 				<div id="navigation" class="uk-width-medium-1-4">
 					<h1 class="nav-header">'. COMPANY_TITLE .'</h1>
-					<a class="nav-header" href="index.php'. $languageQuery .'" target="_self">'. tl('press kit') .'</a></strong>
+					<a class="nav-header" href="'. $languageQuery .'" target="_self">'. tl('press kit') .'</a></strong>
 					<ul class="uk-nav uk-nav-side">';
 
 if (count(TranslateTool::getLanguages()) > 1) {
-	echo '<li class="language-select"><a>'. tl('Language: ') .'<select onchange="document.location = \'sheet.php?p='. htmlspecialchars($game) .'&l=\'+ this.value;">';
+	echo '<li class="language-select"><a>'. tl('Language: ') .'<select onchange="document.location = \''. htmlspecialchars($game) .'&l=\'+ this.value;">';
 	foreach (TranslateTool::getLanguages() as $tag => $name)
 	{
 		echo '<option value="'. $tag .'" '. ($tag == $language ? 'selected':'') .'>'. htmlspecialchars($name) .'</option>';
@@ -377,8 +357,8 @@ echo '						<li><a href="#links">'. tl('Additional Links') .'</a></li>
 				</div>
 				<div id="content" class="uk-width-medium-3-4">';
 
-if( file_exists($game."/images/header.png") ) {
-	echo '<img src="'.$game.'/images/header.png" class="header">';
+if( file_exists($games_location.$game."/images/header.png") ) {
+	echo '<img src="'.$games_location.$game.'/images/header.png" class="header">';
 }
 
 echo '					<div class="uk-grid">
@@ -386,7 +366,7 @@ echo '					<div class="uk-grid">
 							<h2 id="factsheet">'. tl('Factsheet'). '</h2>
 							<p>
 								<strong>'. tl('Developer:'). '</strong><br/>
-								<a href="index.php'. $languageQuery .'">'. COMPANY_TITLE .'</a><br/>
+								<a href="../'. $languageQuery .'">'. COMPANY_TITLE .'</a><br/>
 								'. tl('Based in %s', COMPANY_BASED) .'
 							</p>
 							<p>
@@ -408,13 +388,13 @@ for( $i = 0; $i < count($platforms); $i++ )
 			$link = $child;
 		}
 	}
-	echo '<a href="'.parseLink($link).'">'.$name.'</a><br/>';
+	echo '<a href="'.$link.'">'.$name.'</a><br/>';
 }
 
 echo '							</p>
 							<p>
 								<strong>'. tl('Website:'). '</strong><br/>
-								<a href="'. parseLink(GAME_WEBSITE) .'">'. parseLink(GAME_WEBSITE) .'</a>
+								<a href="'. GAME_WEBSITE .'">'. parseLink(GAME_WEBSITE) .'</a>
 							</p>
 							<p>
 								<strong>'. tl('Regular Price:'). '</strong><br/>';
@@ -541,10 +521,10 @@ else
 				$result .= '<a href="https://www.vimeo.com/'.$vimeo.'">Vimeo</a>, ';
 			}
 			if( strlen( $mov ) > 0 ) {
-				$result .= '<a href="'.$game.'/trailers/'.$mov.'">.mov</a>, ';
+				$result .= '<a href="'.$games_location.$game.'/trailers/'.$mov.'">.mov</a>, ';
 			}
 			if( strlen( $mp4 ) > 0 ) {
-				$result .= '<a href="'.$game.'/trailers/'.$mp4.'">.mp4</a>, ';
+				$result .= '<a href="'.$games_location.$game.'/trailers/'.$mp4.'">.mp4</a>, ';
 			}
 
 			echo substr($result, 0, -2);
@@ -568,9 +548,9 @@ echo '					<hr>
 
 					<h2 id="images">'. tl('Images') .'</h2>';
 
-if( file_exists($game."/images/images.zip") )
+if( file_exists($games_location.$game."/images/images.zip") )
 {
-	$filesize = filesize($game."/images/images.zip");
+	$filesize = filesize($games_location.$game."/images/images.zip");
 	if( $filesize > 1024 && $filesize < 1048576 ) {
 		$filesize = (int)( $filesize / 1024 ).'KB';
 	}
@@ -578,11 +558,11 @@ if( file_exists($game."/images/images.zip") )
 		$filesize = (int)(( $filesize / 1024 ) / 1024 ).'MB';
 	}
 
-	echo '<a href="'. $game .'/images/images.zip"><div class="uk-alert">'. tl('download all screenshots & photos as .zip (%s)', $filesize) .'</div></a>';
+	echo '<a href="'. $games_location.$game .'/images/images.zip"><div class="uk-alert">'. tl('download all screenshots & photos as .zip (%s)', $filesize) .'</div></a>';
 }
 
 echo '<div class="uk-grid images">';
-if ($handle = opendir($game.'/images'))
+if ($handle = opendir($games_location.$game.'/images'))
 {
 	$found = 0;
 	/* This is the correct way to loop over the directory. */
@@ -592,7 +572,7 @@ if ($handle = opendir($game.'/images'))
 		{
 			if( substr($entry,0,4) != "logo" && substr($entry,0,4) != "icon" && substr($entry,0,6) != "header" )
 			{	
-				echo '<div class="uk-width-medium-1-2"><a href="'. $game .'/images/'. $entry .'"><img src="'. $game .'/images/'.$entry.'" alt="'.$entry.'" /></a></div>';
+				echo '<div class="uk-width-medium-1-2"><a href="'. $games_location.$game .'/images/'. $entry .'"><img src="'. $games_location.$game .'/images/'.$entry.'" alt="'.$entry.'" /></a></div>';
 				$found++;
 			}
 		}
@@ -610,9 +590,9 @@ echo '					<hr>
 
 					<h2 id="logo">'. tl('Logo & Icon') .'</h2>';
 
-if( file_exists($game."/images/logo.zip") )
+if( file_exists($games_location.$game."/images/logo.zip") )
 {
-	$filesize = filesize($game."/images/logo.zip");
+	$filesize = filesize($games_location.$game."/images/logo.zip");
 	if( $filesize > 1024 && $filesize < 1048576 ) {
 		$filesize = (int)( $filesize / 1024 ).'KB';
 	}
@@ -620,22 +600,22 @@ if( file_exists($game."/images/logo.zip") )
 		$filesize = (int)(( $filesize / 1024 ) / 1024 ).'MB';
 	}
 
-	echo '<a href="'.$game.'/images/logo.zip"><div class="uk-alert">'. tl('download logo files as .zip (%s)', $filesize) .'</div></a>';
+	echo '<a href="'.$games_location.$game.'/images/logo.zip"><div class="uk-alert">'. tl('download logo files as .zip (%s)', $filesize) .'</div></a>';
 }
 
 echo '<div class="uk-grid images">';
 
-if( file_exists($game.'/images/logo.png') ) {
-	echo '<div class="uk-width-medium-1-2"><a href="'.$game.'/images/logo.png"><img src="'.$game.'/images/logo.png" alt="logo" /></a></div>';
+if( file_exists($games_location.$game.'/images/logo.png') ) {
+	echo '<div class="uk-width-medium-1-2"><a href="'.$games_location.$game.'/images/logo.png"><img src="'.$games_location.$game.'/images/logo.png" alt="logo" /></a></div>';
 }
 
-if( file_exists($game.'/images/icon.png') ) {
-	echo '<div class="uk-width-medium-1-2"><a href="'.$game.'/images/icon.png"><img src="'.$game.'/images/icon.png" alt="logo" /></a></div>';
+if( file_exists($games_location.$game.'/images/icon.png') ) {
+	echo '<div class="uk-width-medium-1-2"><a href="'.$games_location.$game.'/images/icon.png"><img src="'.$games_location.$game.'/images/icon.png" alt="logo" /></a></div>';
 }
 
 echo '</div>';
 
-if( !file_exists($game.'/images/logo.png') && !file_exists($game.'/images/icon.png')) {
+if( !file_exists($games_location.$game.'/images/logo.png') && !file_exists($games_location.$game.'/images/icon.png')) {
 	echo '<p>'. tlHtml('There are currently no logos or icons available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', GAME_TITLE) .'</p>';
 }
 
@@ -687,7 +667,7 @@ if( count($quotes) > 0 )
 			}
 		}
 		echo '<li>"'.$description.'" <br/>
-<cite>- '.$name.', <a href="'.parseLink($link).'">'.$website.'</a></cite></li>';
+<cite>- '.$name.', <a href="'.$link.'">'.$website.'</a></cite></li>';
 	}
 	
 	echo '</ul>';
@@ -720,46 +700,13 @@ if( $press_request == TRUE )
 	}
 }
 
-
-/*if( $press_request == TRUE )
-{
-	echo '<h2 id="preview">'. tl('Request Press Copy') .'</h2>
-<p>'. tl('Please fill in your e-mail address below and we\'ll get back to you as soon as a press copy is available for you.') .'<br/>
-<div id="mailform">
-
-	<form id="pressrequest" class="uk-form" action="mail.php" method="post">
-		<input type="hidden" value="'. GAME_TITLE .'" id="gametitle" name="gametitle">
-		<input type="hidden" value="'. $game .'" id="game" name="game">
-		<input type="hidden" value="'. htmlspecialchars($language) .'" id="language" name="l">
-		<fieldset>
-			<input type="text" placeholder="'. tl('me@website.com') .'" id="from" name="from">'. tl(', writing for ') .'<input type="text" placeholder="'. tl('company name') .'" id="outlet" name="outlet">'. tl(' would like to ') .'<button class="uk-button" id="submit-button">'. tl('request a press copy') .'</button>
-		</fieldset>
-	</form>
-	<p>'. tlHtml('Alternatively, you can always request a press copy by <a href="#contact">sending us a quick email</a>.') .'
-</div>';
-
-	if (isset($_GET['mail'])) {
-		if ($_GET['mail'] == 'success') {
-			echo '<div class="uk-alert uk-alert-success">'. tlHtml('Thanks for the request. We\'ll be in touch as soon as possible. In the meanwhile, feel free to <a href="#contact">follow up with any questions or requests you might have!</a>') .'</div>';
-		} else if ($_GET['mail'] == 'fromerror') {
-			echo '<div class="uk-alert uk-alert-danger">'. tlHtml('We could not validate your email address. Please try contacting us using <a href="#contact">one of the options listed here</a>.') .'</div>';
-		} else if ($_GET['mail'] == 'emptyerror') {
-			echo '<div class="uk-alert uk-alert-danger">'. tlHtml('Please fill in all the fields or try contacting us using <a href="#contact">one of the options listed here</a>.') .'</div>';
-		} else {
-			echo '<div class="uk-alert uk-alert-danger">'. tlHtml('We failed to send the email. Please try contacting us using <a href="#contact">one of the options listed here</a>.') .'</div>';
-		}
-	}
-
-	echo '<hr>';
-}*/
-
 if( $monetize >= 1 )
 {
 	echo '<h2 id="monetize">'. tl('Monetization Permission') .'</h2>';
 	if( $monetize == 1 ) echo('<p>'. tl('%s does currently not allow for the contents of %s to be published through video broadcasting services.', COMPANY_TITLE, GAME_TITLE) .'</p>');
 	if( $monetize == 2 ) echo('<p>'. tl('%s does allow the contents of this game to be published through video broadcasting services only with direct written permission from %s. Check at the bottom of this page for contact information.', COMPANY_TITLE, GAME_TITLE) .'</p>');
 	if( $monetize == 3 ) echo('<p>'. tl('%s allows for the contents of %s to be published through video broadcasting services for non-commercial purposes only. Monetization of any video created containing assets from %s is not allowed.', COMPANY_TITLE, GAME_TITLE, GAME_TITLE) .'</p>');
-	if( $monetize == 4 ) echo('<p>'. tl('%s allows for the contents of %s to be published through video broadcasting services for any commercial or non-commercial purposes. Monetization of videos created containing assets from %s is legally & explicitly allowed by %s.', COMPANY_TITLE, GAME_TITLE, GAME_TITLE, COMPANY_TITLE) .' '. tlHtml('This permission can be found in writing at <a href="%s">%s</a>.', 'http://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 'http://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) .'</p>');
+	if( $monetize == 4 ) echo('<p>'. tl('%s allows for the contents of %s to be published through video broadcasting services for any commercial or non-commercial purposes. Monetization of videos created containing assets from %s is legally & explicitly allowed by %s.', COMPANY_TITLE, GAME_TITLE, GAME_TITLE, COMPANY_TITLE) .' '. tlHtml('This permission can be found in writing at <a href="%s">%s</a>.', 'https://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], 'https://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) .'</p>');
 	echo '<hr>';
 }
 
@@ -780,19 +727,13 @@ for( $i = 0; $i < count($additionals); $i++ )
 		}
 	}
 
-	// if( strpos(parseLink($link),'/') !== 0 ) {
-	// 	$linkTitle = substr(parseLink($link),0,strpos(parseLink($link),'/'));
-	// 	error_log(">>>>> " . $linkTitle);
-	// } else { $linkTitle = $link; }
-
 	if( strpos(parseLink($link),'/') !== false ) {
 		$linkTitle = substr(parseLink($link),0,strpos(parseLink($link),'/'));
-		error_log(">>>>> " . $linkTitle);
 	} else { $linkTitle = $link; }
 	
 	echo '<p>
 	<strong>'.$title.'</strong><br/>
-	'.$description.' <a href="'.parseLink($link).'" alt="'.parseLink($link).'">'.$linkTitle.'</a>.
+	'.$description.' <a href="'.$link.'" alt="'.parseLink($link).'">'.$linkTitle.'</a>.
 </p>';
 }
 
@@ -806,7 +747,7 @@ echo '					<hr>
 
 					<p>
 						<strong>'. tl('More information'). '</strong><br/>
-						'. tlHtml('More information on %s, our logo & relevant media are available <a href="%s">here</a>.', COMPANY_TITLE, 'index.php'. $languageQuery). '
+						'. tlHtml('More information on %s, our logo & relevant media are available <a href="%s">here</a>.', COMPANY_TITLE, '../'. $languageQuery). '
 					</p>
 					
 					<hr>
@@ -839,7 +780,7 @@ for( $i = 0; $i < count($credits); $i++ )
 	}
 	else
 	{
-		echo '<strong>'.$person.'</strong><br/><a href="'.parseLink($website).'">'.$role.'</a>';
+		echo '<strong>'.$person.'</strong><br/><a href="'.$website.'">'.$role.'</a>';
 	}
 
 	echo '</p>';
@@ -869,7 +810,7 @@ for( $i = 0; $i < count($contacts); $i++ )
 		echo '<strong>'.$name.'</strong><br/><a href="mailto:'.$mail.'">'.$mail.'</a>';
 	}
 	if( strlen($link) > 0 && strlen($mail) == 0 ) {
-		echo '<strong>'.$name.'</strong><br/><a href="'.parseLink($link).'">'.parseLink($link).'</a>';
+		echo '<strong>'.$name.'</strong><br/><a href="'.$link.'">'.parseLink($link).'</a>';
 	}
 
 	echo '</p>';
@@ -880,7 +821,7 @@ echo '						</div>
 
 					<hr>
 
-					<p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="https://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="sheet.php?p=credits">these fine folks</a></p>
+					<p><a href="https://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="https://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="https://dopresskit.com/#thanks">these fine folks</a></p>
 				</div>
 			</div>
 		</div>

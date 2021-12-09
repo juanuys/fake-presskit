@@ -1,42 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <game>
-	<title>Game Name</title>
-	<release-date>1 May, 2012</release-date>
-	<website>http://www.gamesite.com/</website>
+	<title>A Night At Locke Manor</title>
+	<release-date>19 August, 2021</release-date>
+	<website>https://juanuys.com/fake-steam-page/</website>
 	<press-can-request-copy>TRUE</press-can-request-copy>
 
 	<platforms>
 		<platform>
-			<name>PC / Mac</name>
-			<link>http://www.gamesite.com/</link>
-		</platform>
-		<platform>
-			<name>Steam</name>
-			<link>http://www.steampowered.com/</link>
-		</platform>
-		<platform>
-			<name>Apple App Store</name>
-			<link>http://www.itunes.com/</link>
+			<name>PC / Mac / Linux</name>
+			<link>https://juanuys.com/fake-steam-page/</link>
 		</platform>
 	</platforms>
 	
 	<prices>
 		<price>
 			<currency>USD</currency>
-			<value>$1.99</value>
+			<value>$9.99</value>
 		</price>
 		<price>
 			<currency>EUR</currency>
-			<value>€1.59</value>
+			<value>€9.99</value>
 		</price>
 		<price>
 			<currency>CAD</currency>
-			<value>$1.99</value>
+			<value>$11.99</value>
 		</price>				
 		<price>
 			<currency>GBP</currency>
-			<value>£1.29</value>
+			<value>£7.99</value>
 		</price>
 	</prices>
 

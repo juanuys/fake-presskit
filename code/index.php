@@ -1,5 +1,7 @@
 <?php
 
+$games_location = 'games/';
+
 if( file_exists('install.php') )
 {
 	header("Location: install.php");
@@ -30,7 +32,7 @@ if( !file_exists('data.xml') )
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<title>Instructions</title>
-		<link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<link href="style.css" rel="stylesheet" type="text/css">
 	</head>
 
@@ -39,16 +41,7 @@ if( !file_exists('data.xml') )
 			<div class="uk-grid">
 			</div>
 		</div>
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$(".uk-grid").load("create.php?s=installation");
-
-				setInterval(function() {
-					$(".uk-grid").load("create.php?s=installation");
-				}, 5000);
-			});
-		</script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	</body>
 </html>';
 		exit;
@@ -211,7 +204,7 @@ echo '<!DOCTYPE html>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<title>'. COMPANY_TITLE .'</title>
-		<link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<link href="style.css" rel="stylesheet" type="text/css">
 	</head>
 
@@ -220,7 +213,7 @@ echo '<!DOCTYPE html>
 			<div class="uk-grid">
 				<div id="navigation" class="uk-width-medium-1-4">
 					<h1 class="nav-header">'. COMPANY_TITLE .'</h1>
-					<a class="nav-header" href="http://'. parseLink(COMPANY_WEBSITE) .'">'. trim( parseLink(COMPANY_WEBSITE), "/") .'</a>
+					<a class="nav-header" href="'. COMPANY_WEBSITE .'">'. trim( parseLink(COMPANY_WEBSITE), "/") .'</a>
 					<ul class="uk-nav uk-nav-side">';
 
 if (count(TranslateTool::getLanguages()) > 1) {
@@ -271,7 +264,7 @@ echo '					<div class="uk-grid">
 							</p>
 							<p>
 								<strong>'. tl('Website:') .'</strong><br/>
-								<a href="http://'. parseLink(COMPANY_WEBSITE) .'">'. parseLink(COMPANY_WEBSITE) .'</a>
+								<a href="'. COMPANY_WEBSITE .'">'. parseLink(COMPANY_WEBSITE) .'</a>
 							</p>
 							<p>
 								<strong>'. tl('Press / Business Contact:') .'</strong><br/>
@@ -289,7 +282,7 @@ for( $i = 0; $i < count($socials); $i++ )
 		if( $child->getName() == "name" ) $name = $child;
 		else if( $child->getName() == "link" ) $link = $child;
 	}
-	echo( '<a href="http://'.parseLink($link).'">'.$name.'</a><br/>' );
+	echo( '<a href="'.$link.'">'.$name.'</a><br/>' );
 }
 
 echo '							</p>
@@ -299,7 +292,7 @@ echo '							</p>
 if ($handle = opendir('.')) {
 	while (false !== ($entry = readdir($handle))) {
 		if ($entry != "." && $entry != ".." && $entry != "lang" && substr($entry,0,1) != "_" && strpos($entry, ".") === FALSE && substr($entry,-4) != ".log" && substr($entry,0,6) != "images" && substr($entry,0,8) != "trailers" && substr($entry,0,9) != "error_log") {
-			echo '<a href="sheet.php?p='.$entry . str_replace('?', '&', $languageQuery).'">'.ucwords(str_replace("_", " ", $entry)).'</a><br />';
+			echo '<a href="'.$entry . str_replace('?', '&', $languageQuery).'">'.ucwords(str_replace("_", " ", $entry)).'</a><br />';
 		}
 	}
 }
@@ -344,10 +337,10 @@ for( $i = 0; $i < count($histories); $i++ )
 echo '							<h2 id="projects">'. tl('Projects') .'</h2>
 							<ul>';
 
-if ($handle = opendir('.')) {
+if ($handle = opendir($games_location)) {
 	while (false !== ($entry = readdir($handle))) {
 		if ($entry != "." && $entry != ".." && $entry != "lang" && substr($entry,0,1) != "_" && strpos($entry, ".") === FALSE && substr($entry,-4) != ".log" && substr($entry,0,6) != "images" && substr($entry,0,8) != "trailers" && substr($entry,0,9) != "error_log") {
-			echo '<li><a href="sheet.php?p='.$entry. str_replace('?', '&', $languageQuery).'">'.ucwords(str_replace("_", " ", $entry)).'</a></li>';
+			echo '<li><a href="'.$entry. str_replace('?', '&', $languageQuery).'">'.ucwords(str_replace("_", " ", $entry)).'</a></li>';
 		}
 	}
 }
@@ -399,10 +392,10 @@ else
 			$result = "";
 
 			if( strlen( $youtube ) > 0 ) {
-				$result .= '<a href="http://www.youtube.com/watch?v='.$youtube.'">YouTube</a>, ';
+				$result .= '<a href="https://www.youtube.com/watch?v='.$youtube.'">YouTube</a>, ';
 			}
 			if( strlen( $vimeo ) > 0 ) {
-				$result .= '<a href="http://www.vimeo.com/'.$vimeo.'">Vimeo</a>, ';
+				$result .= '<a href="https://www.vimeo.com/'.$vimeo.'">Vimeo</a>, ';
 			}
 			if( strlen( $mov ) > 0 ) {
 				$result .= '<a href="trailers/'.$mov.'">.mov</a>, ';
@@ -416,11 +409,11 @@ else
 			if( $ytfirst == 1 ) 
 			{
 				echo '<div class="uk-responsive-width iframe-container">
-		<iframe src="http://www.youtube.com/embed/'. $youtube .'" frameborder="0" allowfullscreen></iframe>
+		<iframe src="https://www.youtube.com/embed/'. $youtube .'" frameborder="0" allowfullscreen></iframe>
 </div>';
 			} elseif ( $ytfirst == 0 ) {
 				echo '<div class="uk-responsive-width iframe-container">
-		<iframe src="http://player.vimeo.com/video/'.$vimeo.'" frameborder="0" allowfullscreen></iframe>
+		<iframe src="https://player.vimeo.com/video/'.$vimeo.'" frameborder="0" allowfullscreen></iframe>
 </div>';
 			}
 			echo '</p>';
@@ -547,7 +540,7 @@ if( count($quotes) > 0 )
 			}
 		}
 	
-		echo '<li>"'.$description.'"<br/><cite>- '.$name.', <a href="http://'.parseLink($link).'/">'.$website.'</a></cite></li></li>';
+		echo '<li>"'.$description.'"<br/><cite>- '.$name.', <a href="'.$link.'">'.$website.'</a></cite></li></li>';
 	}
 	
 	echo '</ul><hr>';
@@ -573,12 +566,11 @@ if( count($additionals) > 0 ) {
 
 		if( strpos(parseLink($link),'/') !== false ) {
 			$linkTitle = substr(parseLink($link),0,strpos(parseLink($link),'/'));
-			error_log(">>>>> " . $linkTitle);
 		} else { $linkTitle = $link; }
 		
 		echo '<p>
 		<strong>'.$title.'</strong><br/>
-		'.$description.' <a href="http://'.parseLink($link).'" alt="'.parseLink($link).'">'.$linkTitle.'</a>.
+		'.$description.' <a href="'.$link.'" alt="'.parseLink($link).'">'.$linkTitle.'</a>.
 	</p>';
 
 	}
@@ -614,7 +606,7 @@ for( $i = 0; $i < count($credits); $i++ )
 	}
 	else
 	{
-		echo '<strong>'.$person.'</strong><br/><a href="http://'.parseLink($website).'/">'.$role.'</a>';
+		echo '<strong>'.$person.'</strong><br/><a href="'.$website.'">'.$role.'</a>';
 	}
 
 	echo '</p>';
@@ -644,7 +636,7 @@ for( $i = 0; $i < count($contacts); $i++ )
 		echo '<strong>'.$name.'</strong><br/><a href="mailto:'.$mail.'">'.$mail.'</a>';
 	}
 	if( strlen($link) > 0 && strlen($mail) == 0 ) {
-		echo '<strong>'.$name.'</strong><br/><a href="http://'.parseLink($link).'">'.parseLink($link).'</a>';
+		echo '<strong>'.$name.'</strong><br/><a href="'.$link.'">'.parseLink($link).'</a>';
 	}
 
 	echo '</p>';
@@ -655,14 +647,14 @@ echo '						</div>
 
 					<hr>
 
-					<p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="sheet.php?p=credits">these fine folks</a></p>
+					<p><a href="https://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="https://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="https://dopresskit.com/#thanks">these fine folks</a></p>
 				</div>
 			</div>
 		</div>
 
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>		
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>		
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
 		<script type="text/javascript">
 			$( document ).ready(function() {
 				var container = $(\'.images\');
